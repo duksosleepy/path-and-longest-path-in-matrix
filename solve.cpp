@@ -71,7 +71,7 @@ int sum_array_elements( int arr[] ) {
 }
 int solve(int r, int c,int r1,int c1)
 {
-	if(abs(r-r1)==1){
+	if(abs(r-r1)==1 && c==c1 && r>=0){
 		solution[r][c] = 1;
         
         cout<<matrix[r][c]<<" ";
@@ -79,20 +79,22 @@ int solve(int r, int c,int r1,int c1)
 		dem+=matrix[r][c];
 		if(solve(r+1, c,r1,c1))
             return 1;
-        if(solve(r-1, c,r1,c1))
+        if(solve(r-1, c,r1,c1) && r>=0)
             return 1;
+        solution[r][c] = 0;
 }
 
-    if(abs(c-c1)==1){
+    else if(abs(c-c1)==1 && r==r1 && c>=0){
 		solution[r][c] = 1;
         
         cout<<matrix[r][c]<<" ";
 		
 		dem+=matrix[r][c];
-    	if(solve(r, c-1,r1,c1))
+    	if(solve(r, c-1,r1,c1) && c>=0)
             return 1;
 		if(solve(r, c+1,r1,c1))
             return 1;
+        solution[r][c] = 0;
 }
     if((r==r1) && (c==c1))
     {
@@ -101,7 +103,7 @@ int solve(int r, int c,int r1,int c1)
         cout<<matrix[r][c]<<" ";
         return 1;
     }
-    if((r!=r1 || c!=c1) && solution[r][c] == 0 && matrix[r][c] != 0)
+    if((r!=r1 || c!=c1) && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0)
     {
         solution[r][c] = 1;
         
