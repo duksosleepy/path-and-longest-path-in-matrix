@@ -69,56 +69,67 @@ int sum_array_elements( int arr[] ) {
    	}
    	return sum;
 }
-int solve(int r, int c,int r1,int c1)
+bool solve(int r, int c,int r1,int c1,vector<int> res = {})
 {
-	if(abs(r-r1)==1 && c==c1 && r>=0){
+	if(abs(r-r1)>0 && c==c1 && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0){
 		solution[r][c] = 1;
         
-        cout<<matrix[r][c]<<" ";
-		
-		dem+=matrix[r][c];
-		if(solve(r+1, c,r1,c1))
+        res.push_back(matrix[r][c]);
+        
+        if(solve(r+1, c,r1,c1,res))
             return 1;
-        if(solve(r-1, c,r1,c1) && r>=0)
+        if(solve(r-1, c,r1,c1,res))
             return 1;
+        res.pop_back();
         solution[r][c] = 0;
-}
-
-    else if(abs(c-c1)==1 && r==r1 && c>=0){
+        return 0;
+	}
+	if(abs(c-c1)>0 && r==r1 && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0){
 		solution[r][c] = 1;
         
-        cout<<matrix[r][c]<<" ";
-		
-		dem+=matrix[r][c];
-    	if(solve(r, c-1,r1,c1) && c>=0)
+        res.push_back(matrix[r][c]);
+        
+        if(solve(r, c-1,r1,c1,res))
             return 1;
-		if(solve(r, c+1,r1,c1))
+		if(solve(r, c+1,r1,c1,res))
             return 1;
+        res.pop_back();
         solution[r][c] = 0;
-}
+        return 0;
+	}
     if((r==r1) && (c==c1))
     {
         solution[r][c] = 1;
-        dem+=matrix[r][c];
-        cout<<matrix[r][c]<<" ";
+        res.push_back(matrix[r][c]);
+		for (int k = 0; k < res.size(); k++){
+			dem+=res[k];
+}	
+	for (int k = 0; k < res.size(); k++){
+			cout<<res[k]<<" ";
+}
         return 1;
     }
+    if(solution[r][c] == 1 ){
+    	return 0;
+	}
     if((r!=r1 || c!=c1) && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0)
     {
         solution[r][c] = 1;
         
-        cout<<matrix[r][c]<<" ";
-		
-		dem+=matrix[r][c];
-		if(solve(r, c-1,r1,c1))
-            return 1;
-		if(solve(r, c+1,r1,c1))
-            return 1;
-        if(solve(r+1, c,r1,c1))
-            return 1;
-        if(solve(r-1, c,r1,c1))
-            return 1;
+        res.push_back(matrix[r][c]);
         
+		
+		if(solve(r, c-1,r1,c1,res))
+            return 1;
+		if(solve(r, c+1,r1,c1,res))
+            return 1;
+        if(solve(r+1, c,r1,c1,res))
+            return 1;
+        if(solve(r-1, c,r1,c1,res))
+            return 1;
+            
+            
+        res.pop_back();
         solution[r][c] = 0;
         return 0;
     }
@@ -209,17 +220,27 @@ int main(){
 	int sum1;
     Input();
 	vector<vector<int> > vec(n);
-	for ( int i = 0 ; i < n ; i++ )
+	for ( int i = 0 ; i < n ; i++ ){
    		vec[i].resize(n);
+}
 	vector<vector<int> > hash(MAX, vector<int>(MAX, 0));
 	vector<vector<int> > hash1(MAX, vector<int>(MAX, 0));
-	for ( int i = 0 ; i < n ; i++ )
-   		for( int j = 0 ; j < n ; j++ )
+	for ( int i = 0 ; i < n ; i++ ){
+   		for( int j = 0 ; j < n ; j++ ){
    			vec[i][j]=matrix[i][j];
-   	for ( int i = 0 ; i < n ; i++ )
+	}
+}
+   	for ( int i = 0 ; i < n ; i++ ){
    		for( int j = 0 ; j < n ; j++ )
    			sum1+=matrix[i][j];
-	
+}
+	for(int t=0; t<MAX; t++)
+    {
+        for(int t1=0; t1<MAX; t1++)
+        {
+            solution[t][t1] = 0;
+        }
+    }
     Output();
     int a;
     cout<<"Chon 1 de tim duong di , chon 2 de tim duong di dai nhat, chon 3 de exit:  ";
@@ -263,6 +284,11 @@ int main(){
 	
 	cout<<"Chon 1 de tim duong di , chon 2 de tim duong di dai nhat, chon 3 de exit:  ";
     cin>>a;
+    for(int i = 0;i<MAX;i++){
+    	fill(hash[i].begin(), hash[i].end(), 0);
+    	fill(hash1[i].begin(), hash1[i].end(), 0);
+    	fill(solution[i], solution[i] + MAX, 0);
+}
 } while(a!=0);
     return 0;
 }
