@@ -10,9 +10,9 @@ using namespace std;
 int key = 0;
 int n, p, q;
 int dem = 0;
-int matrix[MAX][MAX];
-int solution[MAX][MAX];
-int matrix2[MAX*MAX];
+vector<vector<int> > matrix(MAX, vector<int>(MAX, 0));
+vector<vector<int> > solution(MAX, vector<int>(MAX, 0));
+vector<int> matrix2(252, 0);
 
 void Input(){
     ifstream filein("Cau12.txt");
@@ -24,10 +24,15 @@ void Input(){
     }
     filein.close();
 };
-
-void sortarr(){
-	for(int i = 0; i < MAX*MAX; i++){
-        for(int j = i + 1; j < MAX*MAX; j++){
+void resi(vector<vector<int> > temp, int a ,int b){
+	temp.resize(a);
+	for ( int i = 0 ; i < n ; i++ ){
+   		temp[i].resize(b);
+}
+}
+void sortarr(int a){
+	for(int i = 0; i < a; i++){
+        for(int j = i + 1; j < a; j++){
             if(matrix2[i] < matrix2[j]){
                 int tg = matrix2[i];
                 matrix2[i] = matrix2[j];
@@ -35,6 +40,12 @@ void sortarr(){
             }
         }
     }
+}
+int giaiThua(int n)
+{
+    if (n == 1)
+        return 1;
+    return n * giaiThua(n - 1);
 }
 void Output(){
     for (int i = 0; i < n; i++){
@@ -152,7 +163,6 @@ void printAllPath(vector<vector<int> > vec,vector<vector<int> > hash,int i, int 
 			sum+=res[k];
 }		
 		matrix2[key++]=sum;
-		cout << "\n";
 		return;
 	}
 
@@ -195,7 +205,6 @@ void printAllPath2(vector<vector<int> > vec,vector<vector<int> > hash1, int i, i
 			for(int k = 0; k < res1.size(); k++)
 				cout << res1[k] << " ";
 	}
-		cout << "\n";
 		return;
 }
 	hash1[i][j] = 1;
@@ -217,7 +226,14 @@ void printAllPath2(vector<vector<int> > vec,vector<vector<int> > hash1, int i, i
 }
 
 int main(){
-	int sum1;
+	int sum1,size1,size2;
+	cout<<"Nhap kich thuoc cua ma tran: ";
+	cin>>size1>>size2;
+	if(size1!=MAX || size2!= MAX){
+		resi(matrix,size1,size2);
+		resi(solution,size1,size2);
+		matrix2.resize(giaiThua(size1+size2)/giaiThua(size1)*giaiThua(size2));
+}
     Input();
 	vector<vector<int> > vec(n);
 	for ( int i = 0 ; i < n ; i++ ){
@@ -272,9 +288,10 @@ int main(){
     	cout << "\nChon dinh muon den:";
     	cin>>d1>>d2;
     	printAllPath(vec, hash, s1, s2,d1,d2);
-    	sortarr();
+    	sortarr(matrix2.size());
     	cout<<"QUANG DUONG DAI NHAT LA: ";
     	printAllPath2(vec, hash1, s1, s2,d1,d2);
+    	cout << "\n";
     	cout<<"Tong quang duong: "<<matrix2[0]<<endl;
 
 }
@@ -287,7 +304,8 @@ int main(){
     for(int i = 0;i<MAX;i++){
     	fill(hash[i].begin(), hash[i].end(), 0);
     	fill(hash1[i].begin(), hash1[i].end(), 0);
-    	fill(solution[i], solution[i] + MAX, 0);
+    	fill(solution[i].begin(), solution[i].end(), 0);
+    	//fill(solution[i], solution[i] + MAX, 0);
 }
 } while(a!=0);
     return 0;
