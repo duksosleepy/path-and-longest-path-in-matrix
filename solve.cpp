@@ -16,12 +16,13 @@ vector<vector<int> > hash(MAX, vector<int>(MAX, 0));
 vector<vector<int> > hash1(MAX, vector<int>(MAX, 0));
 vector<int> matrix2(252, 0);
 
-void Input(int n){
-	int rac;
-    ifstream filein("Cau12.txt");
+void Input(int n,int m){
+	int rac,rac1;
+    ifstream filein("solve.txt");
     filein >> rac;
+    filein >> rac1;
     for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
+        for (int j = 0; j < m; j++){
             filein >> matrix[i][j];
         }
     }
@@ -50,9 +51,9 @@ int giaiThua(int n)
         return 1;
     return n * giaiThua(n - 1);
 }
-void Output(int n){
+void Output(int n,int m){
     for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
+        for (int j = 0; j < m; j++){
             cout<<setw(4)<<left<<matrix[i][j];
         }
         cout<<endl;
@@ -222,27 +223,28 @@ void printAllPath2(vector<vector<int> > vec,vector<vector<int> > hash1, int i, i
 }
 
 int main(){
-	int n,sum1;
-	ifstream filein("Cau12.txt");
+	int n,m,sum1;
+	ifstream filein("solve.txt");
     filein >> n;
-    
-    if(n!= MAX){
-    	resi(matrix,n,n);
-		resi(solution,n,n);
-		resi(hash,n,n);
-		resi(hash1,n,n);
-		resi(vec,n,n);
-		matrix2.resize(giaiThua(n+n)/giaiThua(n)*giaiThua(n));
+    filein >> m;
+    filein.close();
+    if(n!= MAX && m!= MAX){
+    	resi(matrix,n,m);
+		resi(solution,n,m);
+		resi(hash,n,m);
+		resi(hash1,n,m);
+		resi(vec,n,m);
+		matrix2.resize(giaiThua(n+m)/giaiThua(n)*giaiThua(m));
 	}
     
-    Input(n);
+    Input(n,m);
     
 	for ( int i = 0 ; i < n ; i++ ){
-   		for( int j = 0 ; j < n ; j++ ){
+   		for( int j = 0 ; j < m ; j++ ){
    			vec[i][j]=matrix[i][j];
 	}
 }
-    Output(n);
+    Output(n,m);
     int a;
     cout<<"Chon 1 de tim duong di , chon 2 de tim duong di dai nhat, chon 3 de exit:  ";
     cin>>a;
@@ -286,7 +288,7 @@ int main(){
 	
 	cout<<"Chon 1 de tim duong di , chon 2 de tim duong di dai nhat, chon 3 de exit:  ";
     cin>>a;
-    if(n!=MAX){
+    if(n!=MAX && m!= MAX){
 
     	for(int i = 0;i<n;i++){
     		fill(hash[i].begin(), hash[i].end(), 0);
@@ -302,6 +304,7 @@ int main(){
     		fill(solution[i].begin(), solution[i].end(), 0);
 	}
 }
+	key = 0;
 } while(a!=0);
     return 0;
 }
