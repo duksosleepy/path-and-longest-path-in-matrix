@@ -301,12 +301,20 @@ int main(){
 	
 	cout<<"Chon 1 de tim duong di , chon 2 de tim duong di dai nhat, chon 3 de exit:  ";
     cin>>a;
-    for(int i = 0;i<MAX;i++){
-    	fill(hash[i].begin(), hash[i].end(), 0);
-    	fill(hash1[i].begin(), hash1[i].end(), 0);
-    	fill(solution[i].begin(), solution[i].end(), 0);
-    	//fill(solution[i], solution[i] + MAX, 0);
-}
+    if(size1!=MAX){
+    	for(int i = 0;i<size1;i++){
+    		fill(hash[i].begin(), hash[i].end(), 0);
+    		fill(hash1[i].begin(), hash1[i].end(), 0);
+    		fill(solution[i].begin(), solution[i].end(), 0);
+    		//fill(solution[i], solution[i] + MAX, 0);
+	}
+	else{
+		for(int i = 0;i<MAX;i++){
+    		fill(hash[i].begin(), hash[i].end(), 0);
+    		fill(hash1[i].begin(), hash1[i].end(), 0);
+    		fill(solution[i].begin(), solution[i].end(), 0);
+	}
+}	
 } while(a!=0);
     return 0;
 }
