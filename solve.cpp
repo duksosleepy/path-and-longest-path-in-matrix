@@ -6,18 +6,20 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define MAX 5
-#define vocung 100001
-int size1,size2;
 int key = 0;
-int n, p, q;
 int dem = 0;
+
 vector<vector<int> > matrix(MAX, vector<int>(MAX, 0));
 vector<vector<int> > solution(MAX, vector<int>(MAX, 0));
+vector<vector<int> > vec(MAX, vector<int>(MAX, 0));
+vector<vector<int> > hash(MAX, vector<int>(MAX, 0));
+vector<vector<int> > hash1(MAX, vector<int>(MAX, 0));
 vector<int> matrix2(252, 0);
 
-void Input(){
+void Input(int n){
+	int rac;
     ifstream filein("Cau12.txt");
-    filein >> n;
+    filein >> rac;
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             filein >> matrix[i][j];
@@ -25,9 +27,9 @@ void Input(){
     }
     filein.close();
 };
-void resi(vector<vector<int> > temp, int a ,int b){
+void resi(vector<vector<int> > &temp, int a ,int b){
 	temp.resize(a);
-	for ( int i = 0 ; i < n ; i++ ){
+	for ( int i = 0 ; i < a ; i++ ){
    		temp[i].resize(b);
 }
 }
@@ -48,22 +50,15 @@ int giaiThua(int n)
         return 1;
     return n * giaiThua(n - 1);
 }
-void Output(){
-    for (int i = 0; i < size1; i++){
-        for (int j = 0; j < size2; j++){
+void Output(int n){
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
             cout<<setw(4)<<left<<matrix[i][j];
         }
         cout<<endl;
     }
 }
-void printsolution(){
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            cout<<setw(4)<<left<<solution[i][j];
-        }
-        cout << endl;
-    }
-}
+
 
 int max(int a[], int n)
 {
@@ -83,7 +78,7 @@ int sum_array_elements( int arr[] ) {
 }
 bool solve(int r, int c,int r1,int c1,vector<int> res = {})
 {
-	if(abs(r-r1)>0 && c==c1 && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0 && r<=size1-1 && c<=size2-1){
+	if(abs(r-r1)>0 && c==c1 && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0){
 		solution[r][c] = 1;
         
         res.push_back(matrix[r][c]);
@@ -96,7 +91,7 @@ bool solve(int r, int c,int r1,int c1,vector<int> res = {})
         solution[r][c] = 0;
         return 0;
 	}
-	if(abs(c-c1)>0 && r==r1 && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0 && r<=size1-1 && c<=size2-1){
+	if(abs(c-c1)>0 && r==r1 && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0){
 		solution[r][c] = 1;
         
         res.push_back(matrix[r][c]);
@@ -124,7 +119,7 @@ bool solve(int r, int c,int r1,int c1,vector<int> res = {})
     if(solution[r][c] == 1 ){
     	return 0;
 	}
-    if((r!=r1 || c!=c1) && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0 && r<=size1-1 && c<=size2-1)
+    if((r!=r1 || c!=c1) && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0)
     {
         solution[r][c] = 1;
         
@@ -150,7 +145,7 @@ bool solve(int r, int c,int r1,int c1,vector<int> res = {})
 
 void printAllPath(vector<vector<int> > vec,vector<vector<int> > hash,int i, int j,int i1, int j1 ,vector<int> res = {} )
 {
-	if (i < 0 || j < 0 || i >= size1 ||j >= size2 || hash[i][j] == 1)
+	if (i < 0 || j < 0 || i >= vec.size() ||j >= vec[0].size() || hash[i][j] == 1)
 		return ;
 
 	if (i == i1 && j == j1) {
@@ -187,7 +182,7 @@ void printAllPath(vector<vector<int> > vec,vector<vector<int> > hash,int i, int 
 void printAllPath2(vector<vector<int> > vec,vector<vector<int> > hash1, int i, int j,int i1, int j1 ,vector<int> res1 = {}  )
 {
 
-	if (i < 0 || j < 0 || i >= size1 ||j >= size2 || hash1[i][j] == 1)
+	if (i < 0 || j < 0 || i >= vec.size() ||j >= vec[0].size() || hash1[i][j] == 1)
 		return ;
 
 	if (i == i1 && j == j1) {
@@ -227,27 +222,27 @@ void printAllPath2(vector<vector<int> > vec,vector<vector<int> > hash1, int i, i
 }
 
 int main(){
-	int sum1;
-	cout<<"Nhap kich thuoc cua ma tran: ";
-	cin>>size1>>size2;
-	if(size1>MAX || size2> MAX){
-		resi(matrix,size1,size2);
-		resi(solution,size1,size2);
-		matrix2.resize(giaiThua(size1+size2)/giaiThua(size1)*giaiThua(size2));
-}
-    Input();
-	vector<vector<int> > vec(n);
+	int n,sum1;
+	ifstream filein("Cau12.txt");
+    filein >> n;
+    
+    if(n!= MAX){
+    	resi(matrix,n,n);
+		resi(solution,n,n);
+		resi(hash,n,n);
+		resi(hash1,n,n);
+		resi(vec,n,n);
+		matrix2.resize(giaiThua(n+n)/giaiThua(n)*giaiThua(n));
+	}
+    
+    Input(n);
+    
 	for ( int i = 0 ; i < n ; i++ ){
-   		vec[i].resize(n);
-}
-	vector<vector<int> > hash(MAX, vector<int>(MAX, 0));
-	vector<vector<int> > hash1(MAX, vector<int>(MAX, 0));
-	for ( int i = 0 ; i < size1 ; i++ ){
-   		for( int j = 0 ; j < size2 ; j++ ){
+   		for( int j = 0 ; j < n ; j++ ){
    			vec[i][j]=matrix[i][j];
 	}
 }
-    Output();
+    Output(n);
     int a;
     cout<<"Chon 1 de tim duong di , chon 2 de tim duong di dai nhat, chon 3 de exit:  ";
     cin>>a;
@@ -291,13 +286,14 @@ int main(){
 	
 	cout<<"Chon 1 de tim duong di , chon 2 de tim duong di dai nhat, chon 3 de exit:  ";
     cin>>a;
-    if(size1!=MAX){
-    	for(int i = 0;i<size1;i++){
+    if(n!=MAX){
+
+    	for(int i = 0;i<n;i++){
     		fill(hash[i].begin(), hash[i].end(), 0);
     		fill(hash1[i].begin(), hash1[i].end(), 0);
     		fill(solution[i].begin(), solution[i].end(), 0);
-    		//fill(solution[i], solution[i] + MAX, 0);
-	}
+}
+    	//fill(solution[i], solution[i] + MAX, 0);
 }
 	else{
 		for(int i = 0;i<MAX;i++){
@@ -305,7 +301,7 @@ int main(){
     		fill(hash1[i].begin(), hash1[i].end(), 0);
     		fill(solution[i].begin(), solution[i].end(), 0);
 	}
-}	
+}
 } while(a!=0);
     return 0;
 }
