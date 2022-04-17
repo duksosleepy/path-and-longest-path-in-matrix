@@ -7,6 +7,7 @@
 using namespace std;
 #define MAX 5
 #define vocung 100001
+int size1,size2;
 int key = 0;
 int n, p, q;
 int dem = 0;
@@ -48,8 +49,8 @@ int giaiThua(int n)
     return n * giaiThua(n - 1);
 }
 void Output(){
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
+    for (int i = 0; i < size1; i++){
+        for (int j = 0; j < size2; j++){
             cout<<setw(4)<<left<<matrix[i][j];
         }
         cout<<endl;
@@ -82,7 +83,7 @@ int sum_array_elements( int arr[] ) {
 }
 bool solve(int r, int c,int r1,int c1,vector<int> res = {})
 {
-	if(abs(r-r1)>0 && c==c1 && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0){
+	if(abs(r-r1)>0 && c==c1 && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0 && r<=size1-1 && c<=size2-1){
 		solution[r][c] = 1;
         
         res.push_back(matrix[r][c]);
@@ -95,7 +96,7 @@ bool solve(int r, int c,int r1,int c1,vector<int> res = {})
         solution[r][c] = 0;
         return 0;
 	}
-	if(abs(c-c1)>0 && r==r1 && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0){
+	if(abs(c-c1)>0 && r==r1 && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0 && r<=size1-1 && c<=size2-1){
 		solution[r][c] = 1;
         
         res.push_back(matrix[r][c]);
@@ -123,7 +124,7 @@ bool solve(int r, int c,int r1,int c1,vector<int> res = {})
     if(solution[r][c] == 1 ){
     	return 0;
 	}
-    if((r!=r1 || c!=c1) && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0)
+    if((r!=r1 || c!=c1) && solution[r][c] == 0 && matrix[r][c] != 0 && r>=0 && c>=0 && r<=size1-1 && c<=size2-1)
     {
         solution[r][c] = 1;
         
@@ -149,7 +150,7 @@ bool solve(int r, int c,int r1,int c1,vector<int> res = {})
 
 void printAllPath(vector<vector<int> > vec,vector<vector<int> > hash,int i, int j,int i1, int j1 ,vector<int> res = {} )
 {
-	if (i < 0 || j < 0 || i >= vec.size() ||j >= vec[0].size() || hash[i][j] == 1)
+	if (i < 0 || j < 0 || i >= size1 ||j >= size2 || hash[i][j] == 1)
 		return ;
 
 	if (i == i1 && j == j1) {
@@ -186,7 +187,7 @@ void printAllPath(vector<vector<int> > vec,vector<vector<int> > hash,int i, int 
 void printAllPath2(vector<vector<int> > vec,vector<vector<int> > hash1, int i, int j,int i1, int j1 ,vector<int> res1 = {}  )
 {
 
-	if (i < 0 || j < 0 || i >= vec.size() ||j >= vec[0].size() || hash1[i][j] == 1)
+	if (i < 0 || j < 0 || i >= size1 ||j >= size2 || hash1[i][j] == 1)
 		return ;
 
 	if (i == i1 && j == j1) {
@@ -226,10 +227,10 @@ void printAllPath2(vector<vector<int> > vec,vector<vector<int> > hash1, int i, i
 }
 
 int main(){
-	int sum1,size1,size2;
+	int sum1;
 	cout<<"Nhap kich thuoc cua ma tran: ";
 	cin>>size1>>size2;
-	if(size1!=MAX || size2!= MAX){
+	if(size1>MAX || size2> MAX){
 		resi(matrix,size1,size2);
 		resi(solution,size1,size2);
 		matrix2.resize(giaiThua(size1+size2)/giaiThua(size1)*giaiThua(size2));
@@ -241,22 +242,11 @@ int main(){
 }
 	vector<vector<int> > hash(MAX, vector<int>(MAX, 0));
 	vector<vector<int> > hash1(MAX, vector<int>(MAX, 0));
-	for ( int i = 0 ; i < n ; i++ ){
-   		for( int j = 0 ; j < n ; j++ ){
+	for ( int i = 0 ; i < size1 ; i++ ){
+   		for( int j = 0 ; j < size2 ; j++ ){
    			vec[i][j]=matrix[i][j];
 	}
 }
-   	for ( int i = 0 ; i < n ; i++ ){
-   		for( int j = 0 ; j < n ; j++ )
-   			sum1+=matrix[i][j];
-}
-	for(int t=0; t<MAX; t++)
-    {
-        for(int t1=0; t1<MAX; t1++)
-        {
-            solution[t][t1] = 0;
-        }
-    }
     Output();
     int a;
     cout<<"Chon 1 de tim duong di , chon 2 de tim duong di dai nhat, chon 3 de exit:  ";
@@ -308,6 +298,7 @@ int main(){
     		fill(solution[i].begin(), solution[i].end(), 0);
     		//fill(solution[i], solution[i] + MAX, 0);
 	}
+}
 	else{
 		for(int i = 0;i<MAX;i++){
     		fill(hash[i].begin(), hash[i].end(), 0);
